@@ -308,7 +308,10 @@
 
     .oracle-header {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-top: -10px;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 3;
     }
 
     .site-title {
@@ -327,16 +330,18 @@
     }
     .ornament {
       display: flex; align-items: center; justify-content: center;
-      gap: 1rem; margin-top: 1.25rem;
+      gap: 1rem; margin: 1.25rem 0;
     }
     .ornament span { display: block; background: var(--gold-dim); }
     .ornament span:nth-child(1), .ornament span:nth-child(3) { width: 50px; height: 1px; }
     .ornament span:nth-child(2) { width: 6px; height: 6px; border-radius: 50%; }
+    .ornament-top { margin-top: 0.6875rem; margin-bottom: 1.875rem; }
 
     .hero-stack {
       position: relative;
+      z-index: 1;
       width: min(95vw, 600px);
-      margin: 0 auto 2rem;
+      margin: 0 auto 0.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -414,11 +419,12 @@
       backface-visibility: hidden; border-radius: 10px; overflow: hidden;
     }
     .card-back {
-      background: #211938;
+      background: none;
+      border-radius: 0;
     }
     .card-back img {
       width: 100%; height: 100%;
-      object-fit: contain;
+      object-fit: fill;
       display: block;
     }
 
@@ -429,9 +435,9 @@
       align-items: center; text-align: center;
       border: 1px solid var(--gold-dim);
     }
-    .card-front.type-mystic { background: linear-gradient(170deg, #1a1535, #0e0e1a); border-color: rgba(107,91,149,0.4); }
-    .card-front.type-affirmation { background: linear-gradient(170deg, #141f1a, #0e0e1a); border-color: rgba(76,140,100,0.3); }
-    .card-front.type-bodhi { background: linear-gradient(170deg, #1f1510, #0e0e1a); border-color: rgba(180,130,90,0.3); }
+    .card-front.type-mystic { background: linear-gradient(170deg, #1a1535, #0f1a1f, #0e0e1a); border-color: rgba(107,91,149,0.4); }
+    .card-front.type-affirmation { background: linear-gradient(170deg, #141f1a, #0d1f1f, #0e0e1a); border-color: rgba(76,140,100,0.3); }
+    .card-front.type-bodhi { background: linear-gradient(170deg, #1f1510, #121a1d, #0e0e1a); border-color: rgba(180,130,90,0.3); }
 
     .card-type {
       font-family: var(--font-display); font-size: 0.6rem;
@@ -641,6 +647,10 @@
       <div class="hero-title">
         <img src="images/boracle_headertext.svg" alt="The Boracle">
       </div>
+    </div>
+
+    <div class="ornament ornament-top" aria-hidden="true">
+      <span></span><span></span><span></span>
     </div>
 
     <header class="oracle-header">
