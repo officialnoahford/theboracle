@@ -356,6 +356,25 @@
       height: auto;
       display: block;
     }
+    .bodhi-eyes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      filter: drop-shadow(0 0 6px rgba(201,168,76,0.6)) drop-shadow(0 0 16px rgba(201,168,76,0.3));
+    }
+    .oracle.eyes-glow .bodhi-eyes {
+      opacity: 0.8;
+      animation: eyePulse 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes eyePulse {
+      0% { filter: drop-shadow(0 0 6px rgba(201,168,76,0.4)) drop-shadow(0 0 16px rgba(201,168,76,0.2)); }
+      100% { filter: drop-shadow(0 0 12px rgba(201,168,76,0.64)) drop-shadow(0 0 30px rgba(201,168,76,0.32)) drop-shadow(0 0 50px rgba(201,168,76,0.12)); }
+    }
     .hero-title {
       position: relative;
       z-index: 1;
@@ -643,6 +662,7 @@
     <div class="hero-stack">
       <div class="bodhi-hero">
         <img src="images/boracle_bodhi.svg" alt="Bodhi the mystic dog">
+        <img class="bodhi-eyes" src="images/boracle_bodhi_eyes.svg" alt="" aria-hidden="true">
       </div>
       <div class="hero-title">
         <img src="images/boracle_headertext.svg" alt="The Boracle">
@@ -900,6 +920,7 @@
       resetCard();
       drawBtn.style.display = "none";
       loading.classList.add("active");
+      document.getElementById("oracle").classList.add("eyes-glow");
       setTimeout(() => {
         currentCard = drawCard();
         document.getElementById("card-type").textContent = currentCard.label;
@@ -908,6 +929,7 @@
         document.getElementById("card-insight").textContent = currentCard.insight;
         cardFront.classList.add("type-" + currentCard.type);
         loading.classList.remove("active");
+        document.getElementById("oracle").classList.remove("eyes-glow");
         cardStage.classList.add("active");
       }, 1200);
     }
@@ -915,7 +937,11 @@
     function revealCard() {
       if (oracleCard.classList.contains("flipped")) return;
       oracleCard.classList.add("flipped");
-      setTimeout(() => postReveal.classList.add("active"), 700);
+      document.getElementById("oracle").classList.add("eyes-glow");
+      setTimeout(() => {
+        postReveal.classList.add("active");
+        document.getElementById("oracle").classList.remove("eyes-glow");
+      }, 700);
     }
 
     drawBtn.addEventListener("click", startDraw);
