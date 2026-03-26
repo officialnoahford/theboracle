@@ -39,20 +39,60 @@
        =========================== */
     .stars {
       position: fixed; inset: 0; z-index: 0;
-      background-image:
-        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.35), transparent),
-        radial-gradient(1px 1px at 25% 55%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,0.25), transparent),
-        radial-gradient(1px 1px at 55% 75%, rgba(255,255,255,0.15), transparent),
-        radial-gradient(1px 1px at 70% 35%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(1.5px 1.5px at 85% 65%, rgba(255,255,255,0.1), transparent),
-        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,0.25), transparent),
-        radial-gradient(1px 1px at 50% 45%, rgba(255,255,255,0.15), transparent),
-        radial-gradient(1px 1px at 35% 90%, rgba(255,255,255,0.2), transparent);
-      animation: twinkle 8s ease-in-out infinite alternate;
+      overflow: hidden;
     }
-    @keyframes twinkle { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+    .star {
+      position: absolute;
+      animation: twinkle-star ease-in-out infinite alternate;
+    }
+    /* Simple dot stars */
+    .star--dot {
+      border-radius: 50%;
+      background: currentColor;
+    }
+    /* Four-pointed tarot star */
+    .star--four {
+      background: none;
+    }
+    .star--four::before, .star--four::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: currentColor;
+    }
+    .star--four::before {
+      clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+    }
+    .star--four::after { display: none; }
+    /* Six-pointed star of david / tarot hexagram */
+    .star--six {
+      background: none;
+    }
+    .star--six::before, .star--six::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: currentColor;
+    }
+    .star--six::before {
+      clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 81% 100%, 50% 72%, 19% 100%, 31% 59%, 0% 38%, 37% 38%);
+    }
+    .star--six::after { display: none; }
+    /* Diamond sparkle */
+    .star--diamond {
+      background: none;
+    }
+    .star--diamond::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: currentColor;
+      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+    }
+    @keyframes twinkle-star {
+      0% { opacity: var(--star-min); }
+      100% { opacity: var(--star-max); }
+    }
 
     /* ===========================
        JOURNEY (scroll sections)
@@ -266,7 +306,10 @@
     }
     .oracle.instant { display: flex; opacity: 1; }
 
-    .oracle-header { text-align: center; margin-bottom: 2.5rem; }
+    .oracle-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
 
     .site-title {
       font-family: var(--font-display);
@@ -290,13 +333,35 @@
     .ornament span:nth-child(1), .ornament span:nth-child(3) { width: 50px; height: 1px; }
     .ornament span:nth-child(2) { width: 6px; height: 6px; border-radius: 50%; }
 
-    .portrait {
-      width: 140px; height: 140px; margin-bottom: 3rem;
-      border-radius: 50%; border: 2px solid var(--gold-dim); overflow: hidden;
-      box-shadow: 0 0 40px rgba(201,168,76,0.12), 0 0 80px rgba(45,27,105,0.15);
-      background: linear-gradient(135deg, var(--surface), var(--mystic));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem; opacity: 0.6;
+    .hero-stack {
+      position: relative;
+      width: min(95vw, 600px);
+      margin: 0 auto 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .bodhi-hero {
+      position: relative;
+      z-index: 2;
+      width: 97%;
+    }
+    .bodhi-hero img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-title {
+      position: relative;
+      z-index: 1;
+      width: calc(69% + 9px);
+      margin-top: -255px;
+      margin-right: 12px;
+    }
+    .hero-title img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .draw-btn {
@@ -334,7 +399,9 @@
     .card-stage { display: none; flex-direction: column; align-items: center; width: 100%; }
     .card-stage.active { display: flex; animation: fadeUp 0.5s ease-out; }
 
-    .oracle-card { width: 300px; height: 450px; perspective: 1200px; cursor: pointer; }
+    .card-wrapper { position: relative; }
+
+    .oracle-card { width: 300px; height: 377px; perspective: 1200px; cursor: pointer; }
     .card-inner {
       position: relative; width: 100%; height: 100%;
       transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -347,20 +414,13 @@
       backface-visibility: hidden; border-radius: 10px; overflow: hidden;
     }
     .card-back {
-      background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
-      border: 1px solid var(--gold-dim);
-      display: flex; align-items: center; justify-content: center;
+      background: #211938;
     }
-    .card-back-inner {
-      width: 80%; height: 88%;
-      border: 1px solid rgba(201,168,76,0.2); border-radius: 6px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 1rem;
-      background: repeating-conic-gradient(rgba(201,168,76,0.03) 0% 25%, transparent 0% 50%) 50% / 20px 20px;
+    .card-back img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
     }
-    .card-back-icon { font-size: 3rem; opacity: 0.5; filter: sepia(1) saturate(0.5) brightness(1.2); }
-    .card-back-title { font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-dim); }
-    .card-back-hint { font-style: italic; font-size: 0.85rem; color: rgba(138,133,120,0.5); margin-top: 0.5rem; }
 
     .card-front {
       transform: rotateY(180deg);
@@ -448,11 +508,12 @@
     }
 
     @media (max-width: 480px) {
-      .oracle-card { width: 260px; height: 390px; }
+      .oracle-card { width: 260px; height: 327px; }
       .card-front { padding: 1.5rem 1.25rem; }
       .card-message { font-size: 1rem; }
       .oracle { padding: 2rem 1rem 3rem; }
-      .portrait { width: 110px; height: 110px; }
+      .hero-stack { width: 95vw; }
+      .hero-title { margin-top: -195px; }
       .petroglyph { transform: scale(0.7); }
     }
   </style>
@@ -573,17 +634,21 @@
 
   <!-- ===== ORACLE ===== -->
   <div class="oracle" id="oracle">
+    <div class="hero-stack">
+      <div class="bodhi-hero">
+        <img src="images/boracle_bodhi.svg" alt="Bodhi the mystic dog">
+      </div>
+      <div class="hero-title">
+        <img src="images/boracle_headertext.svg" alt="The Boracle">
+      </div>
+    </div>
+
     <header class="oracle-header">
-      <h1 class="site-title">The Boracle</h1>
       <p class="site-subtitle">He Knows. He Always Knows.</p>
       <div class="ornament" aria-hidden="true">
         <span></span><span></span><span></span>
       </div>
     </header>
-
-    <div class="portrait" id="portrait">
-      <span>&#128062;</span>
-    </div>
 
     <button class="draw-btn" id="draw-btn">Draw from The Boracle</button>
 
@@ -596,21 +661,19 @@
     </div>
 
     <div class="card-stage" id="card-stage">
-      <div class="oracle-card" id="oracle-card">
-        <div class="card-inner">
-          <div class="card-back">
-            <div class="card-back-inner">
-              <div class="card-back-icon">&#128062;</div>
-              <div class="card-back-title">The Boracle</div>
-              <div class="card-back-hint">tap to reveal</div>
+      <div class="card-wrapper" id="card-wrapper">
+        <div class="oracle-card" id="oracle-card">
+          <div class="card-inner">
+            <div class="card-back">
+              <img src="images/boracle_card.svg" alt="The Boracle card design">
             </div>
-          </div>
-          <div class="card-front" id="card-front">
-            <div class="card-type" id="card-type"></div>
-            <h2 class="card-title" id="card-title"></h2>
-            <div class="card-divider"></div>
-            <p class="card-message" id="card-message"></p>
-            <p class="card-insight" id="card-insight"></p>
+            <div class="card-front" id="card-front">
+              <div class="card-type" id="card-type"></div>
+              <h2 class="card-title" id="card-title"></h2>
+              <div class="card-divider"></div>
+              <p class="card-message" id="card-message"></p>
+              <p class="card-insight" id="card-insight"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -629,6 +692,50 @@
   </div>
 
   <script>
+    // ===========================
+    // TAROT STARFIELD
+    // ===========================
+    (function() {
+      const container = document.querySelector(".stars");
+      const shapes = ["dot", "dot", "dot", "dot", "four", "six", "diamond"];
+      const colors = [
+        "rgba(255,255,255,",      // white
+        "rgba(201,168,76,",       // gold
+        "rgba(244,222,174,",      // light gold
+        "rgba(232,212,139,",      // gold-light
+        "rgba(107,91,149,",       // accent purple
+        "rgba(200,210,230,",      // cool blue-white
+      ];
+      const count = 90;
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement("div");
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+        const size = shape === "dot"
+          ? (1 + Math.random() * 2.5)
+          : (4 + Math.random() * 8);
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const baseOpacity = shape === "dot"
+          ? (0.3 + Math.random() * 0.6)
+          : (0.15 + Math.random() * 0.35);
+        const minO = Math.max(0.05, baseOpacity - 0.2);
+
+        el.className = "star star--" + shape;
+        el.style.width = size + "px";
+        el.style.height = size + "px";
+        el.style.left = Math.random() * 100 + "%";
+        el.style.top = Math.random() * 100 + "%";
+        el.style.color = color + baseOpacity + ")";
+        el.style.setProperty("--star-min", minO);
+        el.style.setProperty("--star-max", baseOpacity);
+        el.style.animationDuration = (3 + Math.random() * 8) + "s";
+        el.style.animationDelay = (Math.random() * 6) + "s";
+        if (shape !== "dot") {
+          el.style.transform = "rotate(" + Math.floor(Math.random() * 360) + "deg)";
+        }
+        container.appendChild(el);
+      }
+    })();
+
     // ===========================
     // FLOATING DUST PARTICLES
     // ===========================
